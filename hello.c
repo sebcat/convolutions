@@ -55,6 +55,24 @@ static const float gaussian_blur[9] = {
 static unsigned char bmp_data[256 * 256 * 3];
 static unsigned char bmp_data2[256 * 256 * 3];
 
+static void write_bmp(unsigned char *data, int sym) {
+  FILE *fp;
+  char namebuf[16];
+
+  /* open output file */
+  snprintf(namebuf, sizeof(namebuf), "hello%c.bmp", sym);
+  fp = fopen(namebuf, "wb");
+  if (fp == NULL) {
+    perror(namebuf);
+    exit(EXIT_FAILURE);
+  }
+
+  /* write bitmap header and data */
+  fwrite(bmp_header, sizeof(bmp_header), 1, fp);
+  fwrite(data, 256 * 256 * 3, 1, fp);
+  fclose(fp);
+}
+
 static void filter3x3(unsigned char *dst, const unsigned char *src,
     const float *kernel) {
   int x;
@@ -105,24 +123,18 @@ int main() {
       bmp_data[(255 - y) * 256 * 3 + x * 3 + 2] = x^y;
     }
   }
+  write_bmp(bmp_data, '0');
 
   /* apply kernels */
   filter3x3(bmp_data2, bmp_data, gaussian_blur);
+  write_bmp(bmp_data2, '1');
   filter3x3(bmp_data, bmp_data2, edge);
+  write_bmp(bmp_data, '2');
   filter3x3(bmp_data2, bmp_data, sharpen);
+  write_bmp(bmp_data2, '3');
   filter3x3(bmp_data, bmp_data2, box_blur);
+  write_bmp(bmp_data, '4');
 
-  /* open output file */
-  fp = fopen("hello.bmp", "wb");
-  if (fp == NULL) {
-    perror("fopen");
-    return EXIT_FAILURE;
-  }
-
-  /* write bitmap header and data */
-  fwrite(bmp_header, sizeof(bmp_header), 1, fp);
-  fwrite(bmp_data, 256 * 256 * 3, 1, fp);
-  fclose(fp);
 
   return EXIT_SUCCESS;
 }
