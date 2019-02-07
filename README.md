@@ -11,7 +11,7 @@ make hello
 ./hello
 ````
 
-hello0.bmp: Initial image - XOR texture + polynomial
+hello0.bmp: Initial image - XOR texture + polynomial modulus
 
 ![Hello0](hello0.bmp)
 
