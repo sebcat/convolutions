@@ -5,7 +5,6 @@
 #define CLAMP(val, min, max) \
     ((val) < (min) ? (min) : ((val) > (max) ? (max) : (val)))
 
-
 /* all fields are little endian */
 static unsigned char bmp_header[] = {
   'B', 'M',
@@ -102,9 +101,9 @@ static void filter3x3(unsigned char *dst, const unsigned char *src,
         }
       }
 
-      dst[(255 - adj_y) * 256 * 3 + adj_x * 3]      = CLAMP(acc_b, 0, 255);
-      dst[(255 - adj_y) * 256 * 3 + adj_x * 3 + 1]  = CLAMP(acc_g, 0, 255);
-      dst[(255 - adj_y) * 256 * 3 + adj_x * 3 + 2]  = CLAMP(acc_r, 0, 255);
+      dst[(255 - y) * 256 * 3 + x * 3]      = CLAMP(acc_b, 0, 255);
+      dst[(255 - y) * 256 * 3 + x * 3 + 1]  = CLAMP(acc_g, 0, 255);
+      dst[(255 - y) * 256 * 3 + x * 3 + 2]  = CLAMP(acc_r, 0, 255);
     }
   }
 }
