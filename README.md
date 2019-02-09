@@ -7,7 +7,7 @@ Image kernels and textures.
 Generate the images:
 
 ````
-make hello
+make
 ./hello
 ````
 
