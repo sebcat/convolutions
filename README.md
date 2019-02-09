@@ -2,6 +2,8 @@
 
 Image kernels and textures.
 
+Kernels are applied on the individual RGB channels
+
 ## Usage
 
 Generate the images:
